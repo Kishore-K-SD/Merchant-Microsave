@@ -1,4 +1,4 @@
-# Merchant MicroSave — Hackathon Demo
+# Merchant MicroSave - Demo
 
 A local, demo-only prototype of a merchant liquidity intelligence workflow.
 
@@ -7,10 +7,12 @@ A local, demo-only prototype of a merchant liquidity intelligence workflow.
 > **Important:** All bundled balances, collections, liabilities and reserve entries are synthetic. This project is not connected to Paytm, a bank, an Account Aggregator, UPI settlement rails, gold, or any real money movement. The recommendation is a hackathon demonstration heuristic, not financial advice or a production-grade underwriting model.
 
 ## Requirements
+
 - Python 3.10+
 - Node.js 18+ and npm
 
 ## Configure Sarvam AI (Gemma 4 31B)
+
 The backend uses Sarvam Token Factory's Chat Completion V2 API. Sarvam lists Gemma 4 31B under the model ID `gemma4`.
 
 1. Create an API subscription key in the Sarvam dashboard.
@@ -27,9 +29,11 @@ SARVAM_MODEL=gemma4
 The application still starts without a key. In that case, the invoice-extraction button returns a clear configuration message and trend insights fall back to deterministic text. No mock LLM response is presented as a live model result.
 
 ## Run on Windows
+
 Open two terminals.
 
 ### Terminal 1 — Backend
+
 ```powershell
 cd backend
 python -m venv .venv
@@ -40,15 +44,19 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ### Terminal 2 — Frontend
+
 ```powershell
 cd frontend
 npm install
 npm run dev
 ```
+
 Open http://localhost:5173.
 
 ## Run on macOS / Linux
+
 ### Terminal 1 — Backend
+
 ```bash
 cd backend
 python3 -m venv .venv
@@ -59,6 +67,7 @@ uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 ```
 
 ### Terminal 2 — Frontend
+
 ```bash
 cd frontend
 npm install
@@ -68,13 +77,17 @@ npm run dev
 Backend docs: http://127.0.0.1:8000/docs | Health: http://127.0.0.1:8000/health
 
 ## Verify backend
+
 From `backend` with the virtual environment active:
+
 ```bash
 python -m pytest -q
 ```
+
 The included backend suite passes 19 tests, including mocked Sarvam provider calls and PDF rendering tests.
 
 ## Recommended judge walkthrough
+
 1. Start with **Normal trading** and explain the projected minimum balance, protected operating buffer, liabilities and recommendation.
 2. Select **Slow sales week** to show lower collections reducing the recommendation.
 3. Select **Expense spike** to show increased outflows raising the protected buffer.
@@ -85,6 +98,7 @@ The included backend suite passes 19 tests, including mocked Sarvam provider cal
 8. Approve a smaller amount or skip; show the simulated audit-ledger entry.
 
 ## API endpoints
+
 - `GET /health` — includes Sarvam configuration status and model ID, never the API key.
 - `GET /api/v1/microsave/demo-data`
 - `POST /api/v1/microsave/evaluate`
@@ -97,6 +111,7 @@ The included backend suite passes 19 tests, including mocked Sarvam provider cal
 - `GET /api/v1/microsave/ledger/{merchant_id}`
 
 ## Demo assumptions and limitations
+
 - UPI-only data may omit cash, card, other-app collections and off-platform expenses.
 - Sample data is synthetic and generated locally.
 - Forecasting uses conservative historical quantiles and simple trend/stress adjustments. It is not a trained predictive model.
@@ -110,7 +125,9 @@ The included backend suite passes 19 tests, including mocked Sarvam provider cal
 - Before a real pilot, the model needs merchant-specific validation, source reconciliation, secure authentication/authorization, consent and compliance review, transaction idempotency, monitoring and an authorised money-movement partner.
 
 ## Troubleshooting
+
 If the frontend cannot reach the API, ensure the backend runs on port 8000. For a different API host/port, create `frontend/.env` with:
+
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
